@@ -10,6 +10,7 @@ class Device(models.Model):
     model_name = models.CharField(max_length=100, verbose_name="Модель (напр. iPhone 11 Pro)")
     imei_or_serial = models.CharField(max_length=50, unique=True, verbose_name="IMEI / Серійник")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_repair')
+    custom_status = models.CharField(max_length=100, blank=True, default='', verbose_name="Кастомний стан")
     purchase_price = models.IntegerField(verbose_name="Ціна покупки (грн)")
 
     def __str__(self):
@@ -18,8 +19,8 @@ class Device(models.Model):
 
 class RepairLog(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE, related_name='repairs')
-    action = models.CharField(max_length=200, verbose_name="Що зроблено (напр. UnlockTool, заміна АКБ)")
-    cost = models.IntegerField(verbose_name="Витрати на запчастини/софт (грн)")
+    action = models.CharField(max_length=200, verbose_name="Що зроблено")
+    cost = models.IntegerField(verbose_name="Витрати (грн)")
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
