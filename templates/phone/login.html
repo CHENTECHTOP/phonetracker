@@ -1,0 +1,25 @@
+{% extends 'phone/base.html' %}
+
+{% block title %}Вхід | PhoneTracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-5">
+        <div class="card border-secondary shadow">
+            <div class="card-header bg-secondary bg-opacity-20 fw-bold text-center">
+                🔑 Вхід у систему
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary w-100 fw-bold mt-3">Увійти</button>
+                </form>
+                <div class="text-center mt-3">
+                    <small class="text-secondary">Ще немає акаунту? <a href="{% url 'register' %}" class="text-info">Зареєструватися</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

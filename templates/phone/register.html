@@ -1,0 +1,63 @@
+{% extends 'phone/base.html' %}
+
+{% block title %}Реєстрація | PhoneTracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card border-secondary shadow-lg bg-dark">
+            <div class="card-header bg-primary text-black fw-bold text-center fs-5">
+                👤 Створення акаунту
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger p-2 small">
+                            ⚠️ Перевірте введені дані та спробуйте ще раз.
+                        </div>
+                    {% endif %}
+
+                    <!-- Логін -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-bold">Логін (ім'я користувача)</label>
+                        <input type="text" name="username" class="form-control bg-dark text-light border-secondary" placeholder="Придумайте логін" required>
+                        <div class="form-text text-secondary small">До 150 символів (букви, цифри та знаки @/./+/-/_).</div>
+                        {% if form.username.errors %}
+                            <div class="text-danger small mt-1">⚠️ {{ form.username.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Пароль -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-bold">Пароль</label>
+                        <input type="password" name="password1" class="form-control bg-dark text-light border-secondary" placeholder="Придумайте пароль" required>
+                        <div class="form-text text-secondary small">Мінімум 8 символів. Не повинен бути надто простим.</div>
+                        {% if form.password1.errors %}
+                            <div class="text-danger small mt-1">⚠️ {{ form.password1.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Повтор пароля -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-bold">Підтвердження пароля</label>
+                        <input type="password" name="password2" class="form-control bg-dark text-light border-secondary" placeholder="Повторіть пароль" required>
+                        <div class="form-text text-secondary small">Введіть той самий пароль ще раз для перевірки.</div>
+                        {% if form.password2.errors %}
+                            <div class="text-danger small mt-1">⚠️ {{ form.password2.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 fw-bold mt-2">Зареєструватися</button>
+                </form>
+
+                <div class="text-center mt-3 border-top border-secondary pt-3">
+                    <span class="text-secondary small">Вже є акаунт?</span>
+                    <a href="{% url 'login' %}" class="text-primary text-decoration-none small ms-1">Увійти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

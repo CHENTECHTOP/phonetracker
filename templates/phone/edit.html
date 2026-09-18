@@ -1,0 +1,54 @@
+{% extends 'phone/base.html' %}
+
+{% block title %}Редагування | PhoneTracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-secondary shadow">
+            <div class="card-header bg-warning bg-opacity-20 text-warning fw-bold">
+                ✏️ Редагувати пристрій: {{ device.model_name }}
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Модель</label>
+                        <input type="text" name="model_name" value="{{ device.model_name }}" class="form-control bg-dark text-light border-secondary" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">IMEI / Серійний номер</label>
+                        <input type="text" name="imei_or_serial" value="{{ device.imei_or_serial }}" class="form-control bg-dark text-light border-secondary" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Статус</label>
+                        <select name="status" class="form-select bg-dark text-light border-secondary">
+                            <option value="in_repair" {% if device.status == "in_repair" %}selected{% endif %}>🔧 На діагностиці / В ремонті</option>
+                            <option value="ready" {% if device.status == "ready" %}selected{% endif %}>✅ Готовий до продажу</option>
+                            <option value="sold" {% if device.status == "sold" %}selected{% endif %}>🏷️ Продано</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-danger small fw-bold">🔥 Кастомний стан</label>
+                        <input type="text" name="custom_status" value="{{ device.custom_status }}" class="form-control bg-dark text-light border-danger">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Ціна покупки (грн)</label>
+                        <input type="number" step="0.01" name="purchase_price" value="{{ device.purchase_price }}" class="form-control bg-dark text-light border-secondary" required>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning w-100 fw-bold">Зберегти зміни</button>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary w-100">Скасувати</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
