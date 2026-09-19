@@ -1,20 +1,16 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Device(models.Model):
-    STATUS_CHOICES = [
-        ('in_repair', 'На діагностиці / В ремонті'),
-        ('ready', 'Готовий до продажу'),
-        ('sold', 'Продано'),
-    ]
-    model_name = models.CharField(max_length=100, verbose_name="Модель (напр. iPhone 11 Pro)")
-    imei_or_serial = models.CharField(max_length=50, unique=True, verbose_name="IMEI / Серійник")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_repair')
-    custom_status = models.CharField(max_length=100, blank=True, default='', verbose_name="Кастомний стан")
-    purchase_price = models.IntegerField(verbose_name="Ціна покупки (грн)")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='devices')
+    model_name = models.CharField(max_length=100)
+    imei_or_serial = models.CharField(max_length=100)
+    status = models.CharField(max_length=20)
+    custom_status = models.CharField(max_length=200, blank=True, null=True)
+    purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.model_name} - {self.get_status_display()}"
+        return f"{self.model_name} ({self.user.username})"
 
 
 class RepairLog(models.Model):
